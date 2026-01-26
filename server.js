@@ -23,6 +23,8 @@ app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// Dynamic port for Render
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+const PORT = Number(process.env.PORT) || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
