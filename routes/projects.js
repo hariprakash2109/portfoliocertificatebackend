@@ -3,47 +3,63 @@ const db = require("../db");
 const router = express.Router();
 
 // Add project
-router.post("/", (req, res) => {
-  const { title, description, live_link } = req.body;
-  db.query(
-    "INSERT INTO projects (title, description, live_link) VALUES (?, ?, ?)",
-    [title, description, live_link],
-    (err, result) => {
-      if (err) return res.status(500).send(err);
-      res.send({ message: "Project added", id: result.insertId });
-    }
-  );
+router.post("/", async (req, res) => {
+  try {
+    const { title, description, live_link } = req.body;
+
+    const [result] = await db.query(
+      "INSERT INTO projects (title, description, live_link) VALUES (?, ?, ?)",
+      [title, description, live_link]
+    );
+
+    res.json({ message: "Project added", id: result.insertId });
+  } catch (err) {
+    console.error("ADD PROJECT ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Get all projects
-router.get("/", (req, res) => {
-  db.query("SELECT * FROM projects", (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.send(result);
-  });
+router.get("/", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM projects");
+    res.json(rows);
+  } catch (err) {
+    console.error("GET PROJECTS ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Delete project
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  db.query("DELETE FROM projects WHERE id = ?", [id], (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.send({ message: "Project deleted" });
-  });
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await db.query("DELETE FROM projects WHERE id = ?", [id]);
+
+    res.json({ message: "Project deleted" });
+  } catch (err) {
+    console.error("DELETE PROJECT ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Update project
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const { title, description, live_link } = req.body;
-  db.query(
-    "UPDATE projects SET title = ?, description = ?, live_link = ? WHERE id = ?",
-    [title, description, live_link, id],
-    (err, result) => {
-      if (err) return res.status(500).send(err);
-      res.send({ message: "Project updated" });
-    }
-  );
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, live_link } = req.body;
+
+    await db.query(
+      "UPDATE projects SET title = ?, description = ?, live_link = ? WHERE id = ?",
+      [title, description, live_link, id]
+    );
+
+    res.json({ message: "Project updated" });
+  } catch (err) {
+    console.error("UPDATE PROJECT ERROR:", err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 module.exports = router;
