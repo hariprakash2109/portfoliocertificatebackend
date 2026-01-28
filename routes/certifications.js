@@ -56,8 +56,6 @@ router.get("/download/:filename", (req, res) => {
 
   // 🔥 Force download
   res.download(filePath);
-=======
->>>>>>> 14c23a6274b0326f9ed8fbf68ef5e1d59b7129dc
 });
 
 // Delete certification
