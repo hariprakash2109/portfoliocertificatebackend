@@ -44,11 +44,9 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/download/:filename", (req, res) => {
-  const { filename } = req.params;
+  const filename = decodeURIComponent(req.params.filename);
 
   const filePath = path.join(process.cwd(), "uploads", filename);
-
-  console.log("Trying to download:", filePath);
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: "File not found" });
@@ -56,6 +54,7 @@ router.get("/download/:filename", (req, res) => {
 
   res.download(filePath);
 });
+
 
 
 // Delete certification
