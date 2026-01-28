@@ -39,6 +39,7 @@ router.get("/", async (req, res) => {
     console.error("GET CERTIFICATIONS ERROR:", err);
     res.status(500).json({ error: err.message });
   }
+<<<<<<< HEAD
 });
 
 /* ===========================
@@ -55,6 +56,8 @@ router.get("/download/:filename", (req, res) => {
 
   // 🔥 Force download
   res.download(filePath);
+=======
+>>>>>>> 14c23a6274b0326f9ed8fbf68ef5e1d59b7129dc
 });
 
 // Delete certification
