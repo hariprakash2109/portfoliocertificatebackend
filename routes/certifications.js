@@ -48,13 +48,15 @@ router.get("/download/:filename", (req, res) => {
 
   const filePath = path.join(process.cwd(), "uploads", filename);
 
+  console.log("Trying to download:", filePath);
+
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: "File not found" });
   }
 
-  // 🔥 Force download
   res.download(filePath);
 });
+
 
 // Delete certification
 router.delete("/:id", async (req, res) => {
