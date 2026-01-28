@@ -39,7 +39,6 @@ router.get("/", async (req, res) => {
     console.error("GET CERTIFICATIONS ERROR:", err);
     res.status(500).json({ error: err.message });
   }
-<<<<<<< HEAD
 });
 
 /* ===========================
