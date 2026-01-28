@@ -41,9 +41,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* ===========================
-   DOWNLOAD image / pdf
-=========================== */
 router.get("/download/:filename", (req, res) => {
   const { filename } = req.params;
 
