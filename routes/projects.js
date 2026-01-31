@@ -3,13 +3,14 @@ const db = require("../db");
 const router = express.Router();
 
 // Add project
+// Add project
 router.post("/", async (req, res) => {
   try {
-    const { title, description, live_link } = req.body;
+    const { title, description, live_link, category } = req.body;
 
     const [result] = await db.query(
-      "INSERT INTO projects (title, description, live_link) VALUES (?, ?, ?)",
-      [title, description, live_link]
+      "INSERT INTO projects (title, description, live_link, category) VALUES (?, ?, ?, ?)",
+      [title, description, live_link, category]
     );
 
     res.json({ message: "Project added", id: result.insertId });
@@ -18,6 +19,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Get all projects
 router.get("/", async (req, res) => {
@@ -48,11 +50,11 @@ router.delete("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, live_link } = req.body;
+    const { title, description, live_link, category } = req.body;
 
     await db.query(
-      "UPDATE projects SET title = ?, description = ?, live_link = ? WHERE id = ?",
-      [title, description, live_link, id]
+      "UPDATE projects SET title=?, description=?, live_link=?, category=? WHERE id=?",
+      [title, description, live_link, category, id]
     );
 
     res.json({ message: "Project updated" });
@@ -61,5 +63,6 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 module.exports = router;
